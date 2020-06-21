@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,11 +19,12 @@ import java.util.ArrayList;
  * Use the {@link HomeFragment} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewAdapte.OnCustomClick {
 private RecyclerView recyclerView;
 private RecyclerView.LayoutManager layoutManager;
 SingleRow singleRow;
 ArrayList<SingleRow> singleRowArrayList;
+    String cn[];
 RecyclerViewAdapte recyclerViewAdapte;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,15 +35,20 @@ RecyclerViewAdapte recyclerViewAdapte;
         layoutManager=new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         int image[]={R.drawable.amazon,R.drawable.google,R.drawable.micro,R.drawable.tcs,R.drawable.infosys,R.drawable.hcl,R.drawable.wipro,R.drawable.ibm,R.drawable.tm,R.drawable.oracle,R.drawable.cape};
-        String cn[]=getResources().getStringArray(R.array.companies);
+        cn=getResources().getStringArray(R.array.companies);
         String link[]=getResources().getStringArray(R.array.links);
         singleRowArrayList=new ArrayList<>();
         for(int i=0;i<cn.length;i++){
             singleRow=new SingleRow(cn[i],link[i],image[i]);
             singleRowArrayList.add(singleRow);
         }
-        recyclerViewAdapte=new RecyclerViewAdapte(getContext(),singleRowArrayList);
+        recyclerViewAdapte=new RecyclerViewAdapte(getContext(),singleRowArrayList,this);
         recyclerView.setAdapter(recyclerViewAdapte);
         return view;
+    }
+
+    @Override
+    public void oncustomclick(int position) {
+        Toast.makeText(getContext()," "+cn[position],Toast.LENGTH_SHORT).show();
     }
 }
