@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        style="@style/CardView"
+        android:background="#FFF"
+        >
+        <ImageView
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:id="@+id/imageview"
+            android:scaleType="centerInside"
+            ></ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Not found"
+            android:textSize="23sp"
+            android:textColor="#000"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/companyname"
+            android:layout_below="@id/imageview"
+            ></TextView>
+    </RelativeLayout>
+</RelativeLayout>

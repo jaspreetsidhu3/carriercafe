@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">CarrierCafe</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="companies">
+    <item>Amazon</item>
+    <item>Google</item>
+    <item>Microsoft</item>
+    <item>TCS</item>
+    <item>Infosys</item>
+    <item>HCL</item>
+    <item>Wipro</item>
+    <item>IBM</item>
+    <item>Tech Mahindra</item>
+    <item>Oracle</item>
+    <item>Capgemini</item>
+</string-array>
+    <string-array name="links">
+        <item>https://www.amazon.jobs/en/teams/in</item>
+        <item>https://careers.google.com/jobs/</item>
+        <item>https://careers.microsoft.com/</item>
+        <item>https://www.tcs.com/careers?country=IN</item>
+        <item>https://www.infosys.com/careers/apply.html</item>
+        <item>https://www.hcltech.com/careers</item>
+        <item>https://careers.wipro.com/careers-home/</item>
+        <item>https://www.ibm.com/in-en/employment/</item>
+        <item>https://careers.techmahindra.com/</item>
+        <item>https://www.oracle.com/in/corporate/careers/</item>
+        <item>https://www.capgemini.com/in-en/careers/</item>
+    </string-array>
+
+</resources>
