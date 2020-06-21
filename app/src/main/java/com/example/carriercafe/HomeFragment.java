@@ -1,5 +1,6 @@
 package com.example.carriercafe;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,7 @@ private RecyclerView.LayoutManager layoutManager;
 SingleRow singleRow;
 ArrayList<SingleRow> singleRowArrayList;
     String cn[];
+    String link[];
 RecyclerViewAdapte recyclerViewAdapte;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +38,7 @@ RecyclerViewAdapte recyclerViewAdapte;
         recyclerView.setLayoutManager(layoutManager);
         int image[]={R.drawable.amazon,R.drawable.google,R.drawable.micro,R.drawable.tcs,R.drawable.infosys,R.drawable.hcl,R.drawable.wipro,R.drawable.ibm,R.drawable.tm,R.drawable.oracle,R.drawable.cape};
         cn=getResources().getStringArray(R.array.companies);
-        String link[]=getResources().getStringArray(R.array.links);
+        link=getResources().getStringArray(R.array.links);
         singleRowArrayList=new ArrayList<>();
         for(int i=0;i<cn.length;i++){
             singleRow=new SingleRow(cn[i],link[i],image[i]);
@@ -49,6 +51,8 @@ RecyclerViewAdapte recyclerViewAdapte;
 
     @Override
     public void oncustomclick(int position) {
-        Toast.makeText(getContext()," "+cn[position],Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(getContext(),CarrierWebView.class);
+        intent.putExtra("intent_key",link[position]);
+        startActivity(intent);
     }
 }
