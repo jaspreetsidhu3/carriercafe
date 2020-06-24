@@ -4,3 +4,6 @@ Native Android Application which provides direct access to Carrier links of diff
 
 # Developed by
 Jaspreet Singh
+
+# Links
+Linkedin https://www.linkedin.com/in/jaspreetsidhu13/
