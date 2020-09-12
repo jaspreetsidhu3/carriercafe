@@ -7,3 +7,6 @@ Jaspreet Singh
 
 # Links
 Linkedin https://www.linkedin.com/in/jaspreetsidhu13/
+
+# Note
+* Still under developing stage
