@@ -55,4 +55,5 @@ RecyclerViewAdapte recyclerViewAdapte;
         intent.putExtra("intent_key",link[position]);
         startActivity(intent);
     }
+
 }

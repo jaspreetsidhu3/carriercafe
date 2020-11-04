@@ -39,4 +39,10 @@ PagerAdapter pagerAdapter;
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+
+    }
 }

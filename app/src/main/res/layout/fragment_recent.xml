@@ -7,14 +7,13 @@
     tools:context=".RecentFragment">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         >
-        <TextView
+        <WebView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/txtscrap"
-            android:scrollbars="vertical"
-            ></TextView>
+            android:layout_height="wrap_content"
+            android:id="@+id/gfg"
+            ></WebView>
 
     </RelativeLayout>
 
