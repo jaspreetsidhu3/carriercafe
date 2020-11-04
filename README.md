@@ -1,5 +1,5 @@
 # CarrierCafe
-Implementation of ViewPager, Fragments, WebView in Android.
+Implementation of ViewPager, Fragments, WebView and TabBar in Android.
 
 
 # Developed by
