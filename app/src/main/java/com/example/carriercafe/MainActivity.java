@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-
                 Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
                 SystemClock.sleep(1500);
                 startActivity(intent);
