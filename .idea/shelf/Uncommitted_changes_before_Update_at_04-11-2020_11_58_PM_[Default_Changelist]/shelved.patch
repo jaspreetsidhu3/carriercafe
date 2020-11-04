@@ -1,0 +1,261 @@
+Index: app/src/main/java/com/example/carriercafe/RecentFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.carriercafe;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ListView;\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link RecentFragment#newInstance} factory method to\r\n * create an instance of this fragment.\r\n */\r\npublic class RecentFragment extends Fragment {\r\nprivate ListView listView;\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n        // Inflate the layout for this fragment\r\n        View view=inflater.inflate(R.layout.fragment_recent, container, false);\r\n        listView=view.findViewById(R.id.listviewrecent);\r\n        return view;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/carriercafe/RecentFragment.java	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ app/src/main/java/com/example/carriercafe/RecentFragment.java	(date 1604514470036)
+@@ -1,28 +1,55 @@
+ package com.example.carriercafe;
+ 
++import android.os.AsyncTask;
+ import android.os.Bundle;
+ 
+ import androidx.fragment.app.Fragment;
+ 
++import android.text.method.ScrollingMovementMethod;
++import android.util.Log;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.ListView;
++import android.widget.TextView;
++
++import org.jsoup.Jsoup;
++import org.jsoup.nodes.Document;
+ 
+-/**
+- * A simple {@link Fragment} subclass.
+- * Use the {@link RecentFragment#newInstance} factory method to
+- * create an instance of this fragment.
+- */
++import java.io.IOException;
++
+ public class RecentFragment extends Fragment {
+-private ListView listView;
+-
++private TextView textscrap;
++public static final String TAG="Test";
+     @Override
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                              Bundle savedInstanceState) {
+         // Inflate the layout for this fragment
+         View view=inflater.inflate(R.layout.fragment_recent, container, false);
+-        listView=view.findViewById(R.id.listviewrecent);
++        textscrap=view.findViewById(R.id.txtscrap);
++        new MyAsyncTask().execute();
++//        textscrap.setMovementMethod(new ScrollingMovementMethod());
+         return view;
+     }
++    class MyAsyncTask extends AsyncTask<Void,Void,Void>{
++        String words;
++        @Override
++        protected Void doInBackground(Void... voids) {
++            Document document= null;
++            try {
++                document=Jsoup.connect("https://www.geeksforgeeks.org/10-important-interview-questions/").get();
++            } catch (IOException e) {
++                e.printStackTrace();
++            }
++            Log.d(TAG, "doInBackground: "+document.getElementById());
++            words=document.toString();
++            return null;
++        }
++
++        @Override
++        protected void onPostExecute(Void aVoid) {
++            super.onPostExecute(aVoid);
++            textscrap.setText(words);
++        }
++    }
+ }
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.example.carriercafe\"\r\n        minSdkVersion 15\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: \"libs\", include: [\"*.jar\"])\r\n    implementation 'androidx.appcompat:appcompat:1.1.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'\r\n    implementation 'androidx.recyclerview:recyclerview:1.1.0'\r\n    implementation 'com.google.android.material:material:1.1.0'\r\n    implementation 'androidx.cardview:cardview:1.0.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.1'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ app/build.gradle	(date 1604504786660)
+@@ -30,8 +30,10 @@
+     implementation 'com.google.android.material:material:1.1.0'
+     implementation 'androidx.cardview:cardview:1.0.0'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
++    implementation 'org.jsoup:jsoup:1.11.2'
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+ 
++
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_recent.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".RecentFragment\">\r\n<ListView\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:id=\"@+id/listviewrecent\"\r\n    ></ListView>\r\n\r\n\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_recent.xml	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ app/src/main/res/layout/fragment_recent.xml	(date 1604505580470)
+@@ -1,15 +1,23 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:orientation="vertical"
+     tools:context=".RecentFragment">
+-<ListView
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    android:id="@+id/listviewrecent"
+-    ></ListView>
++    <RelativeLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        >
++        <TextView
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:id="@+id/txtscrap"
++            android:scrollbars="vertical"
++            ></TextView>
++
++    </RelativeLayout>
+ 
+ 
+ 
+-</RelativeLayout>
+\ No newline at end of file
++</ScrollView>
+\ No newline at end of file
+Index: app/src/main/java/com/example/carriercafe/HomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.carriercafe;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.viewpager.widget.ViewPager;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport com.google.android.material.tabs.TabLayout;\r\n\r\npublic class HomeActivity extends AppCompatActivity {\r\nprivate TabLayout tabLayout;\r\nprivate ViewPager viewPager;\r\nPagerAdapter pagerAdapter;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_home);\r\n        viewPager=findViewById(R.id.pageview);\r\n        tabLayout=findViewById(R.id.tablayout);\r\n        tabLayout.addTab(tabLayout.newTab().setText(\"Recent\"));\r\n        tabLayout.addTab(tabLayout.newTab().setText(\"Home\"));\r\n        pagerAdapter=new PagerAdapter(getSupportFragmentManager(),getApplicationContext(),tabLayout.getTabCount());\r\n        viewPager.setAdapter(pagerAdapter);\r\n        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));\r\n        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {\r\n            @Override\r\n            public void onTabSelected(TabLayout.Tab tab) {\r\n                viewPager.setCurrentItem(tab.getPosition());\r\n            }\r\n\r\n            @Override\r\n            public void onTabUnselected(TabLayout.Tab tab) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onTabReselected(TabLayout.Tab tab) {\r\n\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/carriercafe/HomeActivity.java	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ app/src/main/java/com/example/carriercafe/HomeActivity.java	(date 1604502669664)
+@@ -17,8 +17,8 @@
+         setContentView(R.layout.activity_home);
+         viewPager=findViewById(R.id.pageview);
+         tabLayout=findViewById(R.id.tablayout);
+-        tabLayout.addTab(tabLayout.newTab().setText("Recent"));
+         tabLayout.addTab(tabLayout.newTab().setText("Home"));
++        tabLayout.addTab(tabLayout.newTab().setText("Popular"));
+         pagerAdapter=new PagerAdapter(getSupportFragmentManager(),getApplicationContext(),tabLayout.getTabCount());
+         viewPager.setAdapter(pagerAdapter);
+         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+Index: app/src/main/res/layout/fragment_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".HomeFragment\">\r\n\r\n    <!-- TODO: Update blank fragment layout -->\r\n   <androidx.recyclerview.widget.RecyclerView\r\n       android:layout_width=\"match_parent\"\r\n       android:layout_height=\"match_parent\"\r\n       android:id=\"@+id/recyclerview\"\r\n       ></androidx.recyclerview.widget.RecyclerView>\r\n\r\n    <com.google.android.material.floatingactionbutton.FloatingActionButton\r\n        android:id=\"@+id/fab\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_alignParentEnd=\"true\"\r\n        android:layout_alignParentRight=\"true\"\r\n\r\n        android:layout_alignParentBottom=\"true\"\r\n\r\n        android:layout_marginEnd=\"17dp\"\r\n        android:layout_marginRight=\"17dp\"\r\n        android:layout_marginBottom=\"19dp\"\r\n        android:backgroundTint=\"#FCFFFF\"\r\n        android:src=\"@drawable/ic_baseline_add_24\">\r\n\r\n    </com.google.android.material.floatingactionbutton.FloatingActionButton>\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_home.xml	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ app/src/main/res/layout/fragment_home.xml	(date 1604502299076)
+@@ -4,28 +4,10 @@
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context=".HomeFragment">
+-
+     <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerview"
+        ></androidx.recyclerview.widget.RecyclerView>
+-
+-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+-        android:id="@+id/fab"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_alignParentEnd="true"
+-        android:layout_alignParentRight="true"
+-
+-        android:layout_alignParentBottom="true"
+-
+-        android:layout_marginEnd="17dp"
+-        android:layout_marginRight="17dp"
+-        android:layout_marginBottom="19dp"
+-        android:backgroundTint="#FCFFFF"
+-        android:src="@drawable/ic_baseline_add_24">
+-
+-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+ </RelativeLayout>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ .idea/gradle.xml	(date 1604501973862)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ .idea/misc.xml	(date 1604502038906)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/compiler.xml	(date 1604502039053)
++++ .idea/compiler.xml	(date 1604502039053)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/example/carriercafe/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.carriercafe;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.os.SystemClock;\r\nimport android.util.Pair;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        Thread thread=new Thread(new Runnable() {\r\n            @Override\r\n            public void run() {\r\n\r\n                Intent intent=new Intent(getApplicationContext(),HomeActivity.class);\r\n                SystemClock.sleep(1500);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n        thread.start();\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/carriercafe/MainActivity.java	(revision 82dbbd87a7bbfd8f8e2eb4f7f3785b480bdc31d0)
++++ app/src/main/java/com/example/carriercafe/MainActivity.java	(date 1604502435875)
+@@ -16,7 +16,6 @@
+         Thread thread=new Thread(new Runnable() {
+             @Override
+             public void run() {
+-
+                 Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
+                 SystemClock.sleep(1500);
+                 startActivity(intent);
